@@ -1,32 +1,77 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="navbar navbar-expand-md navbar-primary  " role="navigation">
+      <router-link class="logo navbar-brand" to="/">Simple CRUD</router-link>
+
+      <div class=" navbar-collapse " id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/">Home </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="my-link nav-link"
+              data-toggle="modal"
+              data-target="#modelId"
+              to="/create"
+              >Create New Post</router-link
+            >
+          </li>
+        </ul>
+      </div>
     </div>
-    <router-view />
+
+    <div class="main-content">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html {
+  margin: 0;
+  padding: 0;
 }
 
-#nav {
-  padding: 30px;
+.navbar {
+  background: #5e8ad3;
+  font-weight: 700;
+}
+.logo {
+  color: aqua;
+}
+.logo:hover {
+  color: azure;
+}
+.nav-item {
+  font-size: 20px;
+}
+.nav-item ul {
+  width: 100%;
+}
+.nav-item:hover {
+  background: #024bb8;
+  border-radius: 5px;
+}
+.nav-link {
+  color: #000;
+}
+.nav-link:hover {
+  color: #fff;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.main-content {
+  background: #ececec;
+  width: 100%;
+  min-height: 92vh;
+  overflow: scroll;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+@media screen and (max-width: 768px) {
+  .nav-item {
+    padding-left: 10px;
+    margin-bottom: 5px;
+    background: #92b2e6;
+    border-radius: 5px;
+  }
 }
 </style>
