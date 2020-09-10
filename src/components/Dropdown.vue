@@ -1,15 +1,74 @@
 <template>
   <div>
-    <div class="selected-cat-list border rounded mb-2 pt-3 pb-3">
-      Categories:
-      <slot name="s-list"></slot>
+    <div>
+      <div class="selected-cat-list border rounded mb-2 pt-3 pb-3">
+        Categories:
+        <span
+          class="badge badge-primary ml-2"
+          v-for="(value, i) in values"
+          :key="i"
+          >{{ value }}</span
+        >
+      </div>
     </div>
     <div class="dropdown">
-      <slot name="s-body"></slot>
+      <button
+        class="btn btn-info dropdown-toggle"
+        type="button"
+        id="sampleDropdownMenu"
+        data-toggle="dropdown"
+        data-flip="false"
+      >
+        Select Categories
+      </button>
+      <div class="dropdown-menu" @click="stopClose">
+        <router-link id="create-cat" class="dropdown-item" to="cate">
+          Create New Category
+        </router-link>
+        <button
+          class="dropdown-item"
+          type="button"
+          v-for="(option, i) in options"
+          :key="i"
+        >
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                :value="option"
+                v-model="values"
+              />
+              {{ option }}
+            </label>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  props: ["values"],
+  data() {
+    return {
+      options: [],
+    };
+  },
+  created() {
+    this.options = JSON.parse(localStorage.getItem("options")) || [];
+  },
+  updated() {
+    this.$emit("clicked", this.values);
+  },
+  methods: {
+    stopClose(e) {
+      e.stopPropagation();
+    },
+  },
+};
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .category-box {

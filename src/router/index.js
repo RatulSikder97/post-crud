@@ -15,36 +15,18 @@ const routes = [
     alias: "/posts/create",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/posts/createPost.vue"),
-    children: [
-      {
-        path: "/",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "../views/categories/allCategories.vue"
-          ),
-      },
-    ],
-  },
-  {
-    path: ":id/edit",
-    alias: "/posts/:id/edit",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/posts/editPost.vue"),
-    children: [
-      {
-        path: "/",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "../views/categories/allCategories.vue"
-          ),
-      },
-    ],
   },
   {
     path: "/:id",
     alias: "/posts/:id",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/posts/post.vue"),
+  },
+  {
+    path: "/:id/edit",
+    alias: "/posts/:id/edit",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/posts/editPost.vue"),
   },
 ];
 
