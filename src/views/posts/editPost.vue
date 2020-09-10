@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" class="container">
+  <div id="wrapper" class="container" :v-if="reload">
     <Modal v-if="showModal">
       <h3 slot="header" class="modal-title">
         Edit Post
@@ -68,40 +68,54 @@ export default {
   },
   data() {
     return {
+      renderComponent: true,
       showModal: true,
       idPost: {},
       updated: [],
+      cates: [],
       posts: JSON.parse(localStorage.getItem("posts")) || [],
     };
   },
   created() {
     this.loadPost(this.$route.params.id);
   },
+  watch: {
+    $route: "forceRerender",
+  },
   methods: {
+    forceRerender() {
+      location.reload();
+    },
+
     openModal() {
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+      let path = "/posts/" + this.$route.params.id;
+      this.$router.push(path);
     },
     onClickChild(value) {
       let cat = JSON.parse(JSON.stringify(value));
-      console.log(cat);
+
       this.updated = cat;
     },
 
     updatePost(id) {
       console.log(this.posts);
       this.posts.forEach((post) => {
-        console.log(post.title);
         if (post.id == id) {
-          this.idPost.categories = this.updated;
+          if (this.updated.length) {
+            this.idPost.categories = this.updated;
+          }
+
           post = { ...this.idPost };
-          console.log(post);
+
           localStorage.setItem("posts", JSON.stringify(this.posts));
         }
       });
-      //this.$router.push({ path: "/" });
+      let path = "/posts/" + this.$route.params.id;
+      this.$router.push({ path: path });
     },
     loadPost(id) {
       this.posts.forEach((post) => {

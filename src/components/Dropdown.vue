@@ -22,7 +22,11 @@
         Select Categories
       </button>
       <div class="dropdown-menu" @click="stopClose">
-        <router-link id="create-cat" class="dropdown-item" to="cate">
+        <router-link
+          id="create-cat"
+          class="dropdown-item"
+          :to="{ name: 'createCat' }"
+        >
           Create New Category
         </router-link>
         <button
@@ -57,8 +61,14 @@ export default {
     };
   },
   created() {
-    this.options = JSON.parse(localStorage.getItem("options")) || [];
+    this.options = JSON.parse(localStorage.getItem("options")) || [
+      "News",
+      "Entertainment",
+      "Lifestyle",
+    ];
+    localStorage.setItem("options", JSON.stringify(this.options));
   },
+
   updated() {
     this.$emit("clicked", this.values);
   },

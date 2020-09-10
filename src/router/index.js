@@ -15,6 +15,16 @@ const routes = [
     alias: "/posts/create",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/posts/createPost.vue"),
+    children: [
+      {
+        path: "createCat",
+        name: "createCat",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/categories/addCategory.vue"
+          ),
+      },
+    ],
   },
   {
     path: "/:id",
@@ -27,6 +37,16 @@ const routes = [
     alias: "/posts/:id/edit",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/posts/editPost.vue"),
+    children: [
+      {
+        path: "createCat",
+        name: "createCat",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/categories/addCategory.vue"
+          ),
+      },
+    ],
   },
 ];
 
