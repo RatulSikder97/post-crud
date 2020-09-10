@@ -9,18 +9,18 @@
         <p class="card-text">
           {{ post.content.slice(1, 30) + "..." }}
         </p>
-        <router-link class="btn btn-success ml-2" :to="'/posts/' + (i + 1)"
+        <router-link class="btn btn-success ml-2" :to="'/posts/' + post.id"
           >View Post</router-link
         >
         <router-link
           class="btn btn-warning ml-2"
-          :to="'/posts/' + (i + 1) + '/edit'"
+          :to="'/posts/' + post.id + '/edit'"
           >Edit</router-link
         >
         <router-link
           class="btn btn-danger ml-2"
           :to="'/posts/'"
-          @click.native="deletePost(i)"
+          @click.native="deletePost(post.id)"
           >Delete</router-link
         >
       </div>
@@ -30,16 +30,24 @@
 
 <script>
 export default {
+  name: "allPost",
   data() {
     return {
-      posts: JSON.parse(localStorage.getItem("posts")) || [],
+      posts: [],
     };
+  },
+  created() {
+    this.posts = JSON.parse(localStorage.getItem("posts")) || [];
   },
   methods: {
     deletePost(id) {
-      this.posts.splice(id, 1);
-      localStorage.setItem("posts", JSON.stringify(this.posts));
-      console.log("Deleted");
+      this.posts.forEach((post) => {
+        if (post.id == id) {
+          let i = this.posts.indexOf(post);
+          this.posts.splice(i, 1);
+          localStorage.setItem("posts", JSON.stringify(this.post));
+        }
+      });
     },
   },
 };

@@ -1,0 +1,113 @@
+<template>
+  <div id="wrapper" class="container">
+    <Modal v-if="showModal">
+      <h3 slot="header" class="modal-title">
+        Create Post
+      </h3>
+
+      <div slot="body">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            class="form-control"
+            placeholder=""
+            aria-describedby="helpId"
+            v-model="matchedPost.title"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea
+            class="form-control"
+            name="content"
+            id="content"
+            rows="3"
+            v-model="matchedPost.content"
+            required
+          ></textarea>
+        </div>
+        <!-- category part -->
+        <router-view @clicked="getOptions"></router-view>
+      </div>
+      <div slot="footer">
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          @click="closeModal()"
+        >
+          Close
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary ml-2"
+          data-dismiss="modal"
+          @click="updatePost(matchedPost.id)"
+        >
+          Update
+        </button>
+      </div>
+    </Modal>
+  </div>
+</template>
+
+<script>
+import Modal from "@/components/Modal";
+//import Category from "@/components/Category";
+export default {
+  components: {
+    Modal,
+  },
+  data() {
+    return {
+      showModal: true,
+      matchedPost: {},
+      posts: JSON.parse(localStorage.getItem("posts")) || [],
+    };
+  },
+  created() {
+    this.loadPost(this.$route.params.id);
+  },
+  methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    getOptions(value) {
+      let opt = JSON.parse(JSON.stringify(value));
+      this.matchedPost.categories = [...opt];
+      console.log(JSON.parse(JSON.stringify(value))); // someValue
+    },
+
+    closeModal() {
+      this.showModal = false;
+      this.$router.push({ path: "/" });
+    },
+    updatePost(id) {
+      this.posts.forEach((post) => {
+        console.log(post.title);
+        if (post.id == id) {
+          post = { ...this.matchedPost };
+          console.log(post);
+          localStorage.setItem("posts", JSON.stringify(this.posts));
+        }
+      });
+      this.$router.push({ path: "/" });
+    },
+    loadPost(id) {
+      this.posts.forEach((post) => {
+        if (post.id == id) {
+          this.matchedPost = post;
+        }
+      });
+    },
+  },
+  computed: {},
+};
+</script>
+
+<style></style>

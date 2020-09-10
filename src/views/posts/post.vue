@@ -2,8 +2,19 @@
   <div class="container bg-light rounded">
     <h1 class="text-primary pt-2">{{ idPost.title }}</h1>
     <p class="p-2 ">{{ idPost.content }}</p>
-    <button type="button" class="btn btn-warning mb-2">Edit</button>
-    <button type="button" class="btn btn-danger ml-2 mb-2">Delete</button>
+    <router-link
+      type="button"
+      class="btn btn-warning mb-2"
+      :to="'/posts/' + idPost.id + '/edit'"
+      >Edit</router-link
+    >
+    <button
+      type="button"
+      class="btn btn-danger ml-2 mb-2"
+      @click="deletePost(idPost.id)"
+    >
+      Delete
+    </button>
   </div>
 </template>
 
@@ -24,6 +35,18 @@ export default {
       this.posts.forEach((post) => {
         if (post.id == id) {
           this.idPost = post;
+        }
+      });
+    },
+
+    deletePost(id) {
+      this.posts.forEach((post) => {
+        if (post.id == id) {
+          let i = this.posts.indexOf(post);
+          console.log(i);
+          this.posts.splice(i, 1);
+          localStorage.setItem("posts", JSON.stringify(this.posts));
+          this.$router.push("/");
         }
       });
     },

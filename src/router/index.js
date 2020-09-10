@@ -30,6 +30,15 @@ const routes = [
     alias: "/posts/:id/edit",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/posts/editPost.vue"),
+    children: [
+      {
+        path: "/",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/categories/allCategories.vue"
+          ),
+      },
+    ],
   },
   {
     path: "/:id",
